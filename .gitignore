@@ -218,7 +218,3 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
-
-
-# 5. 忽略日志文件
-logs/
