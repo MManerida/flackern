@@ -11,7 +11,7 @@ project_dir = Path(__file__).resolve().parent
 
 import random
 
-# 想观察哪个单词，就修改这里
+# 修改观察单词
 WORD = "bird"
 
 # 找到这个单词的文件夹
