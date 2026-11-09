@@ -165,7 +165,7 @@ plt.ylabel("Mel band")
 plt.colorbar(label="Power (dB)")
 plt.tight_layout()
 
-# 先保存图片；即使弹出窗口不方便，也能打开图片查看
+# 保存图片
 output_path = project_dir / "speech_mel.png"
 plt.savefig(output_path, dpi=150)
 print("频谱图已保存到：", output_path)
