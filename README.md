@@ -7,6 +7,7 @@ Predict_voice.py:
 
 # ps:？《云端炼丹》
 0.https://www.kaggle.com/notebooks；https://colab.research.google.com/
+
 1.numpy: numpy是读取音频与pytorch的中间格式，soundfile默认读取出来numpy，torch_from_numpy()转成tensor
 
 2.cnn:池化层（降维），最大池化：区域内最大值，最强信号，cnn中间层提取特征；平均池化：区域内平均值，cnn最后基层（分类汇总），尺寸对其
