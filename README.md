@@ -5,10 +5,11 @@
 
 Predict_voice.py:
 
-# ps:
+# ps:？《云端炼丹》
+0.https://www.kaggle.com/notebooks；https://colab.research.google.com/
 1.numpy: numpy是读取音频与pytorch的中间格式，soundfile默认读取出来numpy，torch_from_numpy()转成tensor
 
-2.cnn:
+2.cnn:池化层（降维），最大池化：区域内最大值，最强信号，cnn中间层提取特征；平均池化：区域内平均值，cnn最后基层（分类汇总），尺寸对其
 
 3.权重：如当写了nn.Conv2d() or nn.Linear()时，pytorch会在后台自动生成一个巨大的数字矩阵，这个矩阵里的每一个数字就是一个权重。在AI训练没开始时，权重是随机的，乱的；此时输入一张yes图，模型猜错，反向传播（梯度在这里，是向量，用链式法则）根据误差（loss）计算出哪一个权重错误，优化器（optimizer）进行调整。-optimizer：新的权重 = 旧的权重 - (学习率 × 梯度)
 
