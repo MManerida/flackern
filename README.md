@@ -1,4 +1,4 @@
-# flackern 抓取音频-分析音频-创造音频
+# flackern 抓取视频-分析视频-创造视频
 1.numpyschokolade:读取wav录音得到numpy，进行傅立叶转换，cnn向前传播测试（Forward Pass Test），验证数据能不能穿透网络结构。 
 
 2.trian_voice_cnn.py: 这段代码，我们自行设置了六个分类，soundfile读取音频得到numpy数组和采样率，转成tensor（1维，点，1s标准格式转换成16000Hz，【16000】），再转成梅尔频谱（音频到图像的转换，得到，时间帧frame+频率Hz，这2维，【80，100】），（batch+通道数+高+宽，变成4维张量【16，1，64，101】进入cnn，cnn处理特定数据如图片要求4维张量，图像领域是一个转换器）在cnn里面进行特征提取再分类（这里是吃算力的地方，只设置了六类，以单词形式），选择最高分的类别编号，再查出对应的单词名称，输出分类结果。
@@ -17,3 +17,5 @@ Predict_voice.py:
 4.函数本身不规定是测试还是验证，取决于传进来哪个loader：evaluate(model, val_loader, criterion, device)# 验证；evaluate(model, test_loader, criterion, device)# 测试
 
 5.候选类别：模型从所有候选选项中，选出最可能，是，的单词，并给出高分。
+
+6.Adam：优化器，具体公式在pytorch库内部实现。它会利用，本次计算的梯度；梯度的历史移动平均；梯度平方的历史移动平均；学习率及其他配置；来结算参数更新量，并进行偏差修正。
