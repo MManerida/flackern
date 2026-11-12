@@ -10,9 +10,11 @@ Predict_voice.py:
 
 1.numpy: numpy是读取音频与pytorch的中间格式，soundfile默认读取出来numpy，torch_from_numpy()转成tensor
 
-2.cnn:里面进行：卷积-relu（激活）-池化，重复堆叠，最后分类；池化层（降维），最大池化：区域内最大值，最强信号，cnn中间层提取特征；平均池化：区域内平均值，cnn最后基层（分类汇总），尺寸对其；embedding词嵌入，一个词用什么特征表示比较好
+2.cnn:里面进行：卷积-relu（激活）-池化，重复堆叠，最后分类；池化层（降维），最大池化：区域内最大值，最强信号，cnn中间层提取特征；平均池化：区域内平均值，cnn最后基层（分类汇总），尺寸对其；embedding词嵌入，一个词用什么特征表示比较好。
 
-3.权重：如当写了nn.Conv2d() or nn.Linear()时，pytorch会在后台自动生成一个巨大的数字矩阵，这个矩阵里的每一个数字就是一个权重。在AI训练没开始时，权重是随机的，乱的；此时输入一张yes图，模型猜错，反向传播（梯度在这里，是向量，用链式法则）根据误差（loss）计算出哪一个权重错误，优化器（optimizer）进行调整。-optimizer：新的权重 = 旧的权重 - (学习率 × 梯度)
+3.权重：如当写了nn.Conv2d() or nn.Linear()时，pytorch会在后台自动生成一个巨大的数字矩阵，这个矩阵里的每一个数字就是一个权重。在AI训练没开始时，权重是随机的，乱的；此时输入一张yes图，模型猜错，反向传播（梯度在这里，是向量，用链式法则）根据误差（loss）计算出哪一个权重错误，优化器（optimizer）进行调整。-optimizer：新的权重 = 旧的权重 - (学习率 × 梯度)。
+算子（operator）定义了计算的动作或规则，如矩阵乘法，卷积，全连接。它规定了数据该怎么流动，怎么运算，是抽象的。
+权重（weight）是具体存储在内存中的数值。
 
 4.函数本身不规定是测试还是验证，取决于传进来哪个loader：evaluate(model, val_loader, criterion, device)# 验证；evaluate(model, test_loader, criterion, device)# 测试
 
