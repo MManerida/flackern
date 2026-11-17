@@ -28,4 +28,4 @@
 
 7.Adam：优化器，具体公式在pytorch库内部实现。它会利用，本次计算的梯度；梯度的历史移动平均；梯度平方的历史移动平均；学习率及其他配置；来结算参数更新量，并进行偏差修正。
 
-8.混淆矩阵<img width="1449" height="967" alt="confusion_matrix_diagram" src="https://github.com/user-attachments/assets/cee37262-133a-4b5e-9926-895b3023efb7" />
+8.混淆矩阵：
