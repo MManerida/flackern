@@ -7,7 +7,7 @@
 
 视频：
 
-1.classify_frames.py:这是单张图片如何进入预训练分类模型，并把结果写成表格的代码。按 frames.csv 里的路径打开图片，转换成 RGB 三通道；prepare_image 依次进行缩放、中心裁剪、转成 Tensor 和标准化，得到形状为 [3, 224, 224] 的数据。.unsqueeze(0) 增加批次维度，变成 [1, 3, 224, 224]，表示这次给模型输入 1 张图片。程序加载别人已训练好的 ResNet18_Weights.DEFAULT 权重来预测，类别名称取自 weights.meta["categories"]，对应 ImageNet 的 1000 个类别；最后选出得分最高的 前 3 类写入 CSV。全是预制菜。
+1.classify_frames.py:这是单张图片如何进入预训练分类模型，并把结果写成表格的代码。按frames.csv里的路径打开图片，转换成RGB三通道；prepare_image依次进行缩放、中心裁剪、转成 Tensor 和标准化，得到形状为 [3, 224, 224] 的数据。.unsqueeze(0) 增加批次维度，变成 [1, 3, 224, 224]，表示这次给模型输入1张图片。程序加载别人已训练好的ResNet18_Weights.DEFAULT权重来预测，类别名称取自 weights.meta["categories"]，、对应ImageNet的1000个类别；最后选出得分最高的 前3类写入CSV。全是预制菜。
 
 # ps:
 0.https://www.kaggle.com/notebooks；https://colab.research.google.com/ ？《云端炼丹》
