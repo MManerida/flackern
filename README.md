@@ -1,9 +1,13 @@
 # flackern 抓取视频-分析视频-创造视频
+音频：
+
 1.numpyschokolade:读取wav录音得到numpy，进行傅立叶转换，cnn向前传播测试（Forward Pass Test），验证数据能不能穿透网络结构。 
 
 2.trian_voice_cnn.py: 这段代码，我们自行设置了六个分类，soundfile读取音频得到numpy数组和采样率，转成tensor（1维，点，1s标准格式转换成16000Hz，【16000】），再转成梅尔频谱（音频到图像的转换，得到，时间帧frame+频率Hz，这2维，【80，100】），（batch+通道数+高+宽，变成4维张量【16，1，64，101】进入cnn，cnn处理特定数据如图片要求4维张量，图像领域是一个转换器）在cnn里面进行特征提取再分类（这里是吃算力的地方，只设置了六类，以单词形式），选择最高分的类别编号，再查出对应的单词名称，输出分类结果。
 
-Predict_voice.py:
+视频：
+
+1.classify_frames.py:这是单张图片如何进入预训练分类模型，并把结果写成表格的代码。按 frames.csv 里的路径打开图片，转换成 RGB 三通道；prepare_image 依次进行缩放、中心裁剪、转成 Tensor 和标准化，得到形状为 [3, 224, 224] 的数据。.unsqueeze(0) 增加批次维度，变成 [1, 3, 224, 224]，表示这次给模型输入 1 张图片。程序加载别人已训练好的 ResNet18_Weights.DEFAULT 权重来预测，类别名称取自 weights.meta["categories"]，对应 ImageNet 的 1000 个类别；最后选出得分最高的 前 3 类写入 CSV。全是预制菜。
 
 # ps:
 0.https://www.kaggle.com/notebooks；https://colab.research.google.com/ ？《云端炼丹》
