@@ -424,3 +424,86 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+    # ==================================================
+    # 7. 用整个测试集制作混淆矩阵
+    # 行：真实类别；列：预测类别
+    # ==================================================
+    model.eval()
+    matrix = torch.zeros(len(WORDS), len(WORDS), dtype=torch.int64)#因为words有6个单词，所以这个是6x6的零矩阵
+    mistakes = []
+
+    # test_loader 设置了 shuffle=False，
+    # 因此它的样本顺序与 splits["test"] 一致，用样本编号找回是哪条录音
+    sample_index = 0
+
+    with torch.inference_mode():
+        for features, labels in test_loader:
+            scores = model(features.to(device))#六个得分里取最高分的位置编号，即预测单词的类别编号
+            predictions = scores.argmax(dim=1).cpu()#把结果搬回cpu
+
+            for true_id, predicted_id in zip(
+                labels.tolist(), predictions.tolist()
+            ):
+                audio_path, _ = splits["test"][sample_index]
+                matrix[true_id, predicted_id] += 1#这一行是填表的核心，每测一条录音：真实单词决定行，预测单词决定列，对应格子+1，测试集600条录音过完，表就完整
+
+                if true_id != predicted_id:#存进错题本
+                    mistakes.append([
+                        str(audio_path),
+                        WORDS[true_id],
+                        WORDS[predicted_id],
+                    ])
+
+                sample_index += 1
+
+    print("\n混淆矩阵：行=真实单词，列=预测单词")
+    print("真实\\预测".ljust(12), " ".join(f"{w:>6}" for w in WORDS))
+
+    for word, row in zip(WORDS, matrix.tolist()):
+        print(f"{word:<12}", " ".join(f"{count:>6}" for count in row))
+
+    matrix_path = output_dir / "confusion_matrix.csv"#矩阵本身
+    with matrix_path.open("w", newline="", encoding="utf-8-sig") as file:
+        writer = csv.writer(file)
+        writer.writerow(["真实\\预测", *WORDS])
+        for word, row in zip(WORDS, matrix.tolist()):
+            writer.writerow([word, *row])
+
+    mistakes_path = output_dir / "mistakes.csv"
+    with mistakes_path.open("w", newline="", encoding="utf-8-sig") as file:
+        writer = csv.writer(file)
+        writer.writerow(["录音路径", "真实单词", "预测单词"])
+        writer.writerows(mistakes)
+
+    print("混淆矩阵：", matrix_path)
+    print("预测错误的录音清单：", mistakes_path)
+
+    # ==================================================
+    # 8. 可选：预测一条自己提供的新录音
+    # ==================================================
+    if NEW_WAV_PATH.strip():
+        new_path = Path(NEW_WAV_PATH).expanduser()
+
+        if not new_path.is_file():
+            raise FileNotFoundError(f"新录音不存在：{new_path}")
+
+        # 复用训练时的 VoiceDataset，避免两份预处理代码不一致。
+        # 这里的 0 只是占位标签；新录音的真实类别由你自己判断。
+        new_features, _ = VoiceDataset([(new_path, 0)])[0]
+
+        with torch.inference_mode():
+            scores = model(new_features.unsqueeze(0).to(device))#模型看频谱图-输出六个得分
+            probabilities = torch.softmax(scores, dim=1)[0].cpu()#最高分的编号=预测单词编号
+
+        predicted_id = int(probabilities.argmax().item())
+
+        print("\n新录音：", new_path)
+        print("预测单词：", WORDS[predicted_id])
+        print("各类别 Softmax 比例：")
+        for word, probability in zip(WORDS, probabilities.tolist()):
+            print(f"  {word}: {probability:.1%}")
+
+
+if __name__ == "__main__":
+    main()
