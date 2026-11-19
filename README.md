@@ -28,4 +28,7 @@
 
 7.Adam：优化器，具体公式在pytorch库内部实现。它会利用，本次计算的梯度；梯度的历史移动平均；梯度平方的历史移动平均；学习率及其他配置；来结算参数更新量，并进行偏差修正。
 
-8.混淆矩阵：
+8.混淆矩阵：把“正确答案是什么”和“实际判成什么”交叉统计，让我们既看到错了多少，也看清哪些类别最容易被混淆，从而有针对性地复核、改进和评测。
+<img width="1794" height="746" alt="1795067331522" src="https://github.com/user-attachments/assets/904f5e21-2eca-4027-b3f8-28b6596a7823" />
+<img width="2752" height="1536" alt="混淆矩阵" src="https://github.com/user-attachments/assets/41882c77-1fbb-462a-bba3-82e43a085cc2" />
+
